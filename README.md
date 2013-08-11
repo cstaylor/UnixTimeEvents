@@ -1,7 +1,7 @@
 UnixTimeEvents
 ==============
 
-NSEvent using NSTimeInterval (the time since your computer last booted) as the time when an event occurs.
+NSEvent uses NSTimeInterval (the time since your computer last booted) as the time when an event occurs.
 For logging and other purposes, I'd rather have an absolute time, and coming from Java, I'm used to Unix time
 (milliseconds since January 1st, 1970).
 
@@ -18,8 +18,8 @@ At the same time, I wanted something similar to the Java AWT's addEventListener 
 using blocks.
 
 I'm not an AppKit expert, but from what I gathered the simplest technique is subclassing NSWindow and track the
-keyboard events there.  Instead of plopping all of the handling code in there, I made a separate protocol and class
-so you can quickly reuse the code in other NSResponder implementations.
+keyboard events there.  Instead of plopping all of the handling code in that subclass, I made a separate protocol 
+and class so you can quickly reuse the code in other NSResponder implementations.
 
 The protocol is CSTEventSource.h, and the handling class is CSTEventManager.
 
@@ -28,7 +28,9 @@ I created one for just a couple of keys as an example of how it could be done.  
 see how I did it (nothing special).
 
 This project has a complete UI example.  When using these classes in your own project that builds everything from a nib,
-remember to input the NSWindow subclass in the object inspector's Custom Class field.
+remember to input the NSWindow subclass in the object inspector's Custom Class field.  One trick that I do is override
+-initWithContentRect:styleMask:backing:defer: and add an NSLog message: if the logging message doesn't appear when
+the nib is loaded, that means I forgot to set the custom class.
 
 Run the program and press the spacebar.  You should see the down and up events in the attached NSTextField, and the
 up event is also logged using NSLog, showing how you can register more than one handler per event type.
